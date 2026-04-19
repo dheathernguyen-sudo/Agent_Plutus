@@ -22,11 +22,15 @@ Your report is an Excel workbook with these pages:
 - **Angel Investments** — if you have any private company investments, they're tracked here with automatic valuation lookups
 - **Cash** — liquid balances across checking, savings, and brokerage cash positions
 
-### What the Report Contains
+### Sample Report (redacted)
 
-- **Dashboard** — a top-level page with YTD benchmark comparison (S&P 500, Dow, NASDAQ), portfolio alpha per account, YTD investment gain breakdown (dividends, realized vs unrealized), account-level overview with TWR / MWRR / cost-basis-return / alpha columns, and a sector & geography concentration view.
-- **Per-account pages** — one tab per brokerage account (Fidelity Brokerage, Roth IRA, HSA, Robinhood, 401(k)) with return metrics, gain/loss summary, and current holdings.
-- **Angel Investments, Cash** — their own pages as applicable.
+**Dashboard** — benchmark comparison, YTD gains, account overview, and sector concentration at a glance. Dollar amounts are redacted; returns and percentages are real.
+
+![Dashboard](docs/screenshots/Dashboard.png)
+
+**Account tab** — each brokerage account gets its own page with return metrics, gain/loss summary, and current holdings.
+
+![Account Tab](docs/screenshots/Fidelity_Brokerage.png)
 
 ## Where Your Data Comes From
 
