@@ -1,0 +1,83 @@
+{
+  "fidelity_BROKERAGE": {
+    "account_id": "TEST001",
+    "holdings": {
+      "2026-04-04": {
+        "AAPL": {"qty": 10.0, "price": 150.00, "mv": 1500.00, "cb": 1200.00, "gl": 300.00, "name": "Apple Inc"},
+        "MSFT": {"qty": 5.0, "price": 400.00, "mv": 2000.00, "cb": 1800.00, "gl": 200.00, "name": "Microsoft Corp"},
+        "VTI": {"qty": 20.0, "price": 250.00, "mv": 5000.00, "cb": 4500.00, "gl": 500.00, "name": "Vanguard Total Stock Market ETF"}
+      }
+    },
+    "cash": 1500.00,
+    "balance": 10000.00,
+    "monthly": [
+      {"month": "January 2026", "deposits": 1000.00, "withdrawals": 0.00, "dividends": 25.00, "buys": 800.00, "sells": 0.00, "fees": 0.00},
+      {"month": "February 2026", "deposits": 0.00, "withdrawals": 0.00, "dividends": 0.00, "buys": 0.00, "sells": 0.00, "fees": 0.00},
+      {"month": "March 2026", "deposits": 500.00, "withdrawals": 200.00, "dividends": 30.00, "buys": 500.00, "sells": 0.00, "fees": 0.00},
+      {"month": "April 2026", "deposits": 0.00, "withdrawals": 0.00, "dividends": 0.00, "buys": 0.00, "sells": 0.00, "fees": 0.00},
+      {"month": "May 2026", "deposits": 0.00, "withdrawals": 0.00, "dividends": 0.00, "buys": 0.00, "sells": 0.00, "fees": 0.00},
+      {"month": "June 2026", "deposits": 0.00, "withdrawals": 0.00, "dividends": 0.00, "buys": 0.00, "sells": 0.00, "fees": 0.00},
+      {"month": "July 2026", "deposits": 0.00, "withdrawals": 0.00, "dividends": 0.00, "buys": 0.00, "sells": 0.00, "fees": 0.00},
+      {"month": "August 2026", "deposits": 0.00, "withdrawals": 0.00, "dividends": 0.00, "buys": 0.00, "sells": 0.00, "fees": 0.00},
+      {"month": "September 2026", "deposits": 0.00, "withdrawals": 0.00, "dividends": 0.00, "buys": 0.00, "sells": 0.00, "fees": 0.00},
+      {"month": "October 2026", "deposits": 0.00, "withdrawals": 0.00, "dividends": 0.00, "buys": 0.00, "sells": 0.00, "fees": 0.00},
+      {"month": "November 2026", "deposits": 0.00, "withdrawals": 0.00, "dividends": 0.00, "buys": 0.00, "sells": 0.00, "fees": 0.00},
+      {"month": "December 2026", "deposits": 0.00, "withdrawals": 0.00, "dividends": 0.00, "buys": 0.00, "sells": 0.00, "fees": 0.00}
+    ],
+    "total_dividends": 55.00,
+    "unrealized": 1000.00
+  },
+  "fidelity_ROTH_IRA": {
+    "account_id": "TEST002",
+    "holdings": {
+      "2026-04-04": {
+        "VOO": {"qty": 15.0, "price": 500.00, "mv": 7500.00, "cb": 6000.00, "gl": 1500.00, "name": "Vanguard S&P 500 ETF"},
+        "SCHD": {"qty": 30.0, "price": 80.00, "mv": 2400.00, "cb": 2100.00, "gl": 300.00, "name": "Schwab US Dividend Equity ETF"}
+      }
+    },
+    "cash": 200.00,
+    "balance": 10100.00,
+    "monthly": [
+      {"month": "January 2026", "deposits": 500.00, "withdrawals": 0.00, "dividends": 45.00, "buys": 500.00, "sells": 0.00, "fees": 0.00},
+      {"month": "February 2026", "deposits": 0.00, "withdrawals": 0.00, "dividends": 0.00, "buys": 0.00, "sells": 0.00, "fees": 0.00},
+      {"month": "March 2026", "deposits": 0.00, "withdrawals": 0.00, "dividends": 50.00, "buys": 0.00, "sells": 0.00, "fees": 0.00},
+      {"month": "April 2026", "deposits": 0.00, "withdrawals": 0.00, "dividends": 0.00, "buys": 0.00, "sells": 0.00, "fees": 0.00},
+      {"month": "May 2026", "deposits": 0.00, "withdrawals": 0.00, "dividends": 0.00, "buys": 0.00, "sells": 0.00, "fees": 0.00},
+      {"month": "June 2026", "deposits": 0.00, "withdrawals": 0.00, "dividends": 0.00, "buys": 0.00, "sells": 0.00, "fees": 0.00},
+      {"month": "July 2026", "deposits": 0.00, "withdrawals": 0.00, "dividends": 0.00, "buys": 0.00, "sells": 0.00, "fees": 0.00},
+      {"month": "August 2026", "deposits": 0.00, "withdrawals": 0.00, "dividends": 0.00, "buys": 0.00, "sells": 0.00, "fees": 0.00},
+      {"month": "September 2026", "deposits": 0.00, "withdrawals": 0.00, "dividends": 0.00, "buys": 0.00, "sells": 0.00, "fees": 0.00},
+      {"month": "October 2026", "deposits": 0.00, "withdrawals": 0.00, "dividends": 0.00, "buys": 0.00, "sells": 0.00, "fees": 0.00},
+      {"month": "November 2026", "deposits": 0.00, "withdrawals": 0.00, "dividends": 0.00, "buys": 0.00, "sells": 0.00, "fees": 0.00},
+      {"month": "December 2026", "deposits": 0.00, "withdrawals": 0.00, "dividends": 0.00, "buys": 0.00, "sells": 0.00, "fees": 0.00}
+    ],
+    "total_dividends": 95.00,
+    "unrealized": 1800.00
+  },
+  "fidelity_HSA": {
+    "account_id": "TEST003",
+    "holdings": {
+      "2026-04-04": {
+        "FXAIX": {"qty": 25.0, "price": 200.00, "mv": 5000.00, "cb": 4200.00, "gl": 800.00, "name": "Fidelity 500 Index Fund"}
+      }
+    },
+    "cash": 300.00,
+    "balance": 5300.00,
+    "monthly": [
+      {"month": "January 2026", "deposits": 300.00, "withdrawals": 0.00, "dividends": 10.00, "buys": 300.00, "sells": 0.00, "fees": 0.00},
+      {"month": "February 2026", "deposits": 0.00, "withdrawals": 0.00, "dividends": 0.00, "buys": 0.00, "sells": 0.00, "fees": 0.00},
+      {"month": "March 2026", "deposits": 0.00, "withdrawals": 0.00, "dividends": 12.00, "buys": 0.00, "sells": 0.00, "fees": 0.00},
+      {"month": "April 2026", "deposits": 0.00, "withdrawals": 0.00, "dividends": 0.00, "buys": 0.00, "sells": 0.00, "fees": 0.00},
+      {"month": "May 2026", "deposits": 0.00, "withdrawals": 0.00, "dividends": 0.00, "buys": 0.00, "sells": 0.00, "fees": 0.00},
+      {"month": "June 2026", "deposits": 0.00, "withdrawals": 0.00, "dividends": 0.00, "buys": 0.00, "sells": 0.00, "fees": 0.00},
+      {"month": "July 2026", "deposits": 0.00, "withdrawals": 0.00, "dividends": 0.00, "buys": 0.00, "sells": 0.00, "fees": 0.00},
+      {"month": "August 2026", "deposits": 0.00, "withdrawals": 0.00, "dividends": 0.00, "buys": 0.00, "sells": 0.00, "fees": 0.00},
+      {"month": "September 2026", "deposits": 0.00, "withdrawals": 0.00, "dividends": 0.00, "buys": 0.00, "sells": 0.00, "fees": 0.00},
+      {"month": "October 2026", "deposits": 0.00, "withdrawals": 0.00, "dividends": 0.00, "buys": 0.00, "sells": 0.00, "fees": 0.00},
+      {"month": "November 2026", "deposits": 0.00, "withdrawals": 0.00, "dividends": 0.00, "buys": 0.00, "sells": 0.00, "fees": 0.00},
+      {"month": "December 2026", "deposits": 0.00, "withdrawals": 0.00, "dividends": 0.00, "buys": 0.00, "sells": 0.00, "fees": 0.00}
+    ],
+    "total_dividends": 22.00,
+    "unrealized": 800.00
+  }
+}

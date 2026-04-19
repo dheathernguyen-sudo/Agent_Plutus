@@ -1,0 +1,39 @@
+{
+  "k401_data": {
+    "quarterly": [
+      {
+        "period": "Q1 (Nov 1 - Jan 31)",
+        "beginning": 0,
+        "ee_contributions": 0,
+        "er_contributions": 0,
+        "fees": 0,
+        "change_in_value": 0,
+        "ending": 0
+      }
+    ],
+    "holdings": [
+      ["Fund Name", 0, 0, 0]
+    ],
+    "twr_merrill_stated": 0
+  },
+  "angel_data": [
+    {
+      "company": "Example Company",
+      "sector": "Technology",
+      "year": 2025,
+      "series": "Series A",
+      "amount": 10000,
+      "pm_invest": 1000000000,
+      "pm_latest": 1000000000,
+      "source": "At cost"
+    }
+  ],
+  "cash_balances": {
+    "fidelity_ACCOUNT1": 0,
+    "fidelity_ACCOUNT2": 0
+  },
+  "_notes": {
+    "last_updated": "2026-01-01",
+    "update_instructions": "Update 401k quarterly data after receiving statements. Update angel data when new funding rounds are announced."
+  }
+}

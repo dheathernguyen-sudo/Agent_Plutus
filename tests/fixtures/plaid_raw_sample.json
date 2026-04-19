@@ -1,0 +1,20 @@
+{
+  "merrill": {
+    "provider": "plaid",
+    "institution": "Merrill Lynch (Bank of America)",
+    "label": "merrill",
+    "accounts": [{"account_id": "plaid-test-merrill-001", "name": "401(k) Plan", "type": "investment", "subtype": "401k", "balances": {"current": 25000.00, "available": null}}],
+    "holdings": [
+      {"account_id": "plaid-test-merrill-001", "security_id": "psec-sp500", "quantity": 100.0, "institution_price": 125.00, "institution_value": 12500.00, "cost_basis": 10000.00},
+      {"account_id": "plaid-test-merrill-001", "security_id": "psec-bond", "quantity": 50.0, "institution_price": 250.00, "institution_value": 12500.00, "cost_basis": null}
+    ],
+    "securities": [
+      {"security_id": "psec-sp500", "name": "S&P 500 Index Fund", "ticker_symbol": "FXAIX", "close_price": 125.00},
+      {"security_id": "psec-bond", "name": "Bond Index Fund", "ticker_symbol": null, "close_price": 250.00}
+    ],
+    "investment_transactions": [
+      {"account_id": "plaid-test-merrill-001", "security_id": "psec-sp500", "date": "2026-01-15", "type": "cash", "subtype": "contribution", "quantity": 4.0, "price": 125.00, "amount": -500.00, "fees": 0.00},
+      {"account_id": "plaid-test-merrill-001", "security_id": "psec-sp500", "date": "2026-02-15", "type": "cash", "subtype": "contribution", "quantity": 4.0, "price": 125.00, "amount": -500.00, "fees": 0.00}
+    ]
+  }
+}

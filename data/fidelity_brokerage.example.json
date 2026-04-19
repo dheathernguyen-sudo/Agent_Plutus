@@ -1,0 +1,27 @@
+{
+  "account": {
+    "name": "Fidelity Brokerage",
+    "tab_name": "Fidelity Brokerage",
+    "number": "X00-000000",
+    "type": "liquid",
+    "provider": "snaptrade"
+  },
+  "monthly": {
+    "Jan": {"begin": 25000.00, "add": 5000.00, "sub": 1000.00, "div": 50.00, "change": 500.00, "end": 29550.00},
+    "Feb": {"begin": 29550.00, "add": 0, "sub": 0, "div": 60.00, "change": -200.00, "end": 29410.00}
+  },
+  "holdings": [
+    {"ticker": "AAPL", "qty": 10, "price": 250.00, "mv": 2500.00, "cb": 2000.00},
+    {"ticker": "MSFT", "qty": 5, "price": 400.00, "mv": 2000.00, "cb": 1800.00},
+    {"ticker": "VTI", "qty": 50, "price": 280.00, "mv": 14000.00, "cb": 12000.00}
+  ],
+  "cash_position": 100.00,
+  "sold": [
+    {"ticker": "GOOG", "date": "Jan 2026", "qty": 5, "cb": 1200.00, "proceeds": 1500.00, "action": "Full exit"}
+  ],
+  "sector_map": {
+    "AAPL": {"sector": "Technology", "country": "United States"},
+    "MSFT": {"sector": "Technology", "country": "United States"},
+    "VTI": {"sector": "Diversified/Index", "country": "United States"}
+  }
+}

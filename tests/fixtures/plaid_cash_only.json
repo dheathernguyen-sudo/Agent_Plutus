@@ -1,0 +1,12 @@
+{
+  "chase": {
+    "provider": "plaid", "institution": "Chase", "label": "chase",
+    "accounts": [{"account_id": "plaid-test-chase-001", "name": "Total Checking", "type": "depository", "subtype": "checking", "balances": {"current": 5432.10, "available": 5432.10}}],
+    "holdings": [], "securities": [], "investment_transactions": []
+  },
+  "marcus": {
+    "provider": "plaid", "institution": "Marcus by Goldman Sachs", "label": "marcus",
+    "accounts": [{"account_id": "plaid-test-marcus-001", "name": "Online Savings", "type": "depository", "subtype": "savings", "balances": {"current": 15000.00, "available": 15000.00}}],
+    "holdings": [], "securities": [], "investment_transactions": []
+  }
+}

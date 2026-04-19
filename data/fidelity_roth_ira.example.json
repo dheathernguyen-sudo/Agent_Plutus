@@ -1,0 +1,22 @@
+{
+  "account": {
+    "name": "Fidelity Roth IRA",
+    "tab_name": "Fidelity Roth IRA",
+    "number": "X00-000001",
+    "type": "liquid",
+    "provider": "snaptrade"
+  },
+  "monthly": {
+    "Jan": {"begin": 15000.00, "add": 500.00, "sub": 0, "div": 30.00, "change": 200.00, "end": 15730.00}
+  },
+  "holdings": [
+    {"ticker": "VOO", "qty": 20, "price": 520.00, "mv": 10400.00, "cb": 9000.00},
+    {"ticker": "SCHD", "qty": 40, "price": 80.00, "mv": 3200.00, "cb": 2800.00}
+  ],
+  "cash_position": 50.00,
+  "sold": [],
+  "sector_map": {
+    "VOO": {"sector": "Diversified/Index", "country": "United States"},
+    "SCHD": {"sector": "Diversified/Index", "country": "United States"}
+  }
+}

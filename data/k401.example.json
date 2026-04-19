@@ -1,0 +1,33 @@
+{
+  "account": {
+    "name": "401(k)",
+    "tab_name": "401(k)",
+    "type": "illiquid",
+    "provider": "plaid",
+    "provider_name": "Merrill Lynch",
+    "fiscal_year": "Nov-Oct"
+  },
+  "_comment": "provider_name: display name for your 401(k) provider (e.g. 'Merrill Lynch', 'Fidelity NetBenefits', 'Schwab'). fiscal_year: 'Nov-Oct' for Merrill, 'Jan-Dec' for most others.",
+  "quarterly": [
+    {
+      "period": "Q1 (Nov 1 - Jan 31)",
+      "beginning": 70000.00,
+      "ee_contributions": 4000.00,
+      "er_contributions": 2800.00,
+      "fees": -0.05,
+      "change_in_value": 1500.00,
+      "ending": 78299.95
+    }
+  ],
+  "holdings": [],
+  "twr_provider_stated": 0.10,
+  "sector_map": {
+    "Large Cap Index Fund": {"sector": "Diversified/Index", "country": "United States"},
+    "Small Cap Index Fund": {"sector": "Diversified/Index", "country": "United States"},
+    "International Equity Fund": {"sector": "Diversified/Index", "country": "Diversified Intl"},
+    "Bond Fund": {"sector": "Diversified/Index", "country": "United States"}
+  },
+  "monthly": {
+    "Jan": {"begin": 70000.00, "add": 2300.00, "sub": 0, "div": 0, "change": 0, "end": 72300.00}
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "robinhood": {
+    "provider": "snaptrade",
+    "institution": "Robinhood",
+    "label": "robinhood",
+    "accounts": [
+      {
+        "account_id": "uuid-test-rh-001",
+        "name": "Robinhood Individual",
+        "number": "1234567",
+        "type": "INDIVIDUAL",
+        "balances": {"current": 5500.00, "currency": "USD"}
+      }
+    ],
+    "holdings": [
+      {"account_id": "uuid-test-rh-001", "account_name": "Robinhood Individual", "security_id": "sec-nvda", "ticker": "NVDA", "name": "NVIDIA Corporation", "quantity": 10.0, "institution_price": 120.00, "institution_value": 1200.00, "cost_basis": 800.00, "gain_loss": 400.00},
+      {"account_id": "uuid-test-rh-001", "account_name": "Robinhood Individual", "security_id": "sec-tsla", "ticker": "TSLA", "name": "Tesla Inc", "quantity": 5.0, "institution_price": 250.00, "institution_value": 1250.00, "cost_basis": 1500.00, "gain_loss": -250.00},
+      {"account_id": "uuid-test-rh-001", "account_name": "Robinhood Individual", "security_id": "sec-unknown", "ticker": "UNKNOWN", "name": "Unknown Security", "quantity": 1.0, "institution_price": 0.01, "institution_value": 0.01, "cost_basis": 0.00, "gain_loss": 0.01},
+      {"account_id": "uuid-test-rh-001", "account_name": "Robinhood Individual", "security_id": "sec-dust", "ticker": "DUST", "name": "Micro Position", "quantity": 0.001, "institution_price": 0.50, "institution_value": 0.0005, "cost_basis": 0.01, "gain_loss": -0.0095}
+    ],
+    "securities": [
+      {"security_id": "sec-nvda", "name": "NVIDIA Corporation", "ticker_symbol": "NVDA", "close_price": 120.00},
+      {"security_id": "sec-tsla", "name": "Tesla Inc", "ticker_symbol": "TSLA", "close_price": 250.00},
+      {"security_id": "sec-unknown", "name": "Unknown Security", "ticker_symbol": null, "close_price": 0.01},
+      {"security_id": "sec-dust", "name": "Micro Position", "ticker_symbol": "DUST", "close_price": 0.50}
+    ],
+    "investment_transactions": [
+      {"account_id": "uuid-test-rh-001", "account_name": "Robinhood Individual", "date": "2026-01-15", "ticker": "NVDA", "name": "NVIDIA Corporation", "type": "BUY", "description": "Market Buy", "quantity": 10.0, "price": 80.00, "amount": -800.00, "fees": 0.00, "currency": "USD"},
+      {"account_id": "uuid-test-rh-001", "account_name": "Robinhood Individual", "date": "2026-02-01", "ticker": "TSLA", "name": "Tesla Inc", "type": "BUY", "description": "Market Buy", "quantity": 5.0, "price": 300.00, "amount": -1500.00, "fees": 0.00, "currency": "USD"},
+      {"account_id": "uuid-test-rh-001", "account_name": "Robinhood Individual", "date": "2026-03-15", "ticker": "NVDA", "name": "NVIDIA Corporation", "type": "DIVIDEND", "description": "Dividend Payment", "quantity": 0, "price": 0, "amount": 4.00, "fees": 0.00, "currency": "USD"},
+      {"account_id": "uuid-test-rh-001", "account_name": "Robinhood Individual", "date": "2026-01-05", "ticker": "", "name": "", "type": "DEPOSIT", "description": "ACH Deposit", "quantity": 0, "price": 0, "amount": 3000.00, "fees": 0.00, "currency": "USD"}
+    ]
+  }
+}

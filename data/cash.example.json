@@ -1,0 +1,14 @@
+{
+  "account": {
+    "name": "Cash",
+    "tab_name": "Cash",
+    "type": "cash",
+    "provider": "plaid"
+  },
+  "plaid_institutions": ["chase", "marcus"],
+  "embedded_cash_accounts": {
+    "fidelity_brokerage": "Fidelity Brokerage Core",
+    "fidelity_roth_ira": "Fidelity Roth IRA Core",
+    "fidelity_hsa": "Fidelity HSA Core"
+  }
+}

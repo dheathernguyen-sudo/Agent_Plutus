@@ -1,0 +1,20 @@
+{
+  "account": {
+    "name": "Fidelity HSA",
+    "tab_name": "Fidelity HSA",
+    "number": "X00-000002",
+    "type": "liquid",
+    "provider": "snaptrade"
+  },
+  "monthly": {
+    "Jan": {"begin": 8000.00, "add": 300.00, "sub": 0, "div": 10.00, "change": 100.00, "end": 8410.00}
+  },
+  "holdings": [
+    {"ticker": "FXAIX", "qty": 30, "price": 210.00, "mv": 6300.00, "cb": 5500.00}
+  ],
+  "cash_position": 200.00,
+  "sold": [],
+  "sector_map": {
+    "FXAIX": {"sector": "Diversified/Index", "country": "United States"}
+  }
+}

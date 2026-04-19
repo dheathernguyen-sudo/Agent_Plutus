@@ -1,0 +1,25 @@
+{
+  "account": {
+    "name": "Robinhood",
+    "tab_name": "Robinhood",
+    "type": "liquid",
+    "provider": "snaptrade",
+    "is_margin": true
+  },
+  "monthly_source": "pdf_statements",
+  "monthly": {
+    "Jan": {"begin": 20000.00, "add": 0, "sub": 0, "div": 25.00, "change": -100.00, "end": 19925.00},
+    "Feb": {"begin": 19925.00, "add": 0, "sub": 0, "div": 0, "change": 300.00, "end": 20225.00}
+  },
+  "holdings": [
+    {"ticker": "NVDA", "qty": 10, "price": 130.00, "mv": 1300.00, "avg_cost": 100.00, "cb": 1000.00},
+    {"ticker": "TSLA", "qty": 5, "price": 250.00, "mv": 1250.00, "avg_cost": 200.00, "cb": 1000.00}
+  ],
+  "cash_position": 500.00,
+  "margin_debt": 0,
+  "sold": [],
+  "sector_map": {
+    "NVDA": {"sector": "Technology", "country": "United States"},
+    "TSLA": {"sector": "Consumer Discretionary", "country": "United States"}
+  }
+}

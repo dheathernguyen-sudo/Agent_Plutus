@@ -1,0 +1,20 @@
+{
+  "account": {
+    "name": "Angel Investments",
+    "tab_name": "Angel Investments",
+    "type": "illiquid",
+    "provider": "manual"
+  },
+  "investments": [
+    {
+      "company": "Example Corp",
+      "sector": "Technology",
+      "year": 2023,
+      "series": "Series B",
+      "amount": 5000,
+      "pm_invest": 1000000000,
+      "pm_latest": 2500000000,
+      "source": "Series C, Jan 2026"
+    }
+  ]
+}

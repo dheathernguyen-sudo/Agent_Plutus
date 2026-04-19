@@ -1,0 +1,19 @@
+{
+  "k401_data": {
+    "quarterly": [
+      {"period": "Q1 (Nov 1 - Jan 31)", "beginning": 20000.00, "ee_contributions": 1500.00, "er_contributions": 750.00, "fees": -12.50, "change_in_value": 800.00, "ending": 23037.50},
+      {"period": "Q2 (Feb 1 - Apr 30)", "beginning": 23037.50, "ee_contributions": 1500.00, "er_contributions": 750.00, "fees": -15.00, "change_in_value": -400.00, "ending": 24872.50}
+    ],
+    "holdings": [
+      {"name": "S&P 500 Index Fund", "beginning": 12000.00, "ending": 13500.00, "gain_loss": 1500.00},
+      {"name": "Bond Index Fund", "beginning": 8000.00, "ending": 7800.00, "gain_loss": -200.00}
+    ],
+    "twr_merrill_stated": 0.0412
+  },
+  "angel_data": [
+    {"company": "TestStartup Inc", "sector": "AI/ML", "year": 2024, "series": "Seed", "amount": 5000.00, "pm_invest": 10000000, "pm_latest": 25000000, "source": "At cost"},
+    {"company": "HealthTech Co", "sector": "Healthcare", "year": 2025, "series": "Series A", "amount": 10000.00, "pm_invest": 50000000, "pm_latest": 50000000, "source": "At cost"}
+  ],
+  "cash_balances": {"fidelity_TEST001": 1500.00, "fidelity_TEST002": 200.00, "fidelity_TEST003": 300.00},
+  "_notes": {"last_updated": "2026-04-01", "update_instructions": "Test fixture — do not modify."}
+}

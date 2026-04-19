@@ -1,0 +1,5 @@
+{
+  "snaptrade": {"client_id": "test-client-id-12345", "consumer_key": "test-consumer-key-67890", "user_id": "test-user-id"},
+  "plaid": {"client_id": "test-plaid-client-id", "secret": "test-plaid-secret", "env": "sandbox"},
+  "institutions": {"robinhood": {"provider": "snaptrade", "account_id": "uuid-test-rh-001"}, "merrill": {"provider": "plaid", "access_token": "access-sandbox-test-token"}}
+}
