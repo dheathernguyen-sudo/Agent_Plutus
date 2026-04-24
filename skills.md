@@ -17,14 +17,13 @@ Run the full daily workflow end-to-end: extract from all sources, fetch benchmar
 
 ## Brokerage Extraction
 
-Pulls holdings, balances, transactions, and monthly history from each brokerage. SnapTrade covers Robinhood + Fidelity; Plaid covers Merrill 401k and cash accounts (Chase, Marcus). OFX and Playwright paths exist as fallbacks.
+Pulls holdings, balances, transactions, and monthly history from each brokerage. SnapTrade covers Robinhood + Fidelity; Plaid covers Merrill 401k and cash accounts (Chase, Marcus). `fidelity_ofx.py` exists as a manual fallback if SnapTrade's Fidelity connection breaks.
 
-- **Scripts:** `fidelity_extract.py`, `fidelity_ofx.py`, `robinhood_history.py`, `plaid_link_oauth.py`
+- **Scripts:** `fidelity_ofx.py`, `robinhood_history.py`, `plaid_link_oauth.py`
 - **Inputs:** Broker APIs (SnapTrade, Plaid, robin_stocks, ofxtools); credentials in `~/.portfolio_extract/config.json` and `~/.portfolio_extract/tokens/`
-- **Outputs:** JSON dumps in `extract_output/` (canonical) and project root (`fidelity_latest.json`, `rh_monthly_returns.json`); per-account files rolled into `data/*.json`
+- **Outputs:** JSON dumps in `extract_output/` (canonical) and project root (`rh_monthly_returns.json`); per-account files rolled into `data/*.json`
 - **Invoke:**
-  - `python fidelity_extract.py [--headless]` — browser-based (SMS 2FA first run)
-  - `python fidelity_ofx.py [--account roth_ira | --setup]` — OFX direct connect
+  - `python fidelity_ofx.py [--account roth_ira | --setup]` — OFX direct connect (manual fallback)
   - `python robinhood_history.py [--login | --year 2026]`
   - `python plaid_link_oauth.py <fidelity|schwab|merrill>` — OAuth relink with ngrok tunnel
 
