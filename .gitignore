@@ -1,0 +1,78 @@
+# Credentials and tokens
+config.json
+.env
+credentials.json
+*.pickle
+tokens/
+.anthropic_key
+
+# Output files
+*.xlsx
+logs/
+extract_output/
+
+# Personal data — real account files (use *.example.json as templates)
+manual_data.json
+data/fidelity_brokerage.json
+data/fidelity_roth_ira.json
+data/fidelity_hsa.json
+data/robinhood.json
+data/k401.json
+data/angel.json
+data/cash.json
+registry_data.json
+rh_cost_basis.json
+rh_monthly_returns.json
+snapshots/
+daily_snapshots_*.json
+
+# Extraction artifacts
+robinhood_monthly_*.json
+benchmarks_*.json
+weekly_raw_*.json
+weekly_pipeline_*.json
+fidelity_extract_*.json
+fidelity_latest.json
+fidelity_debug_page.txt
+Fidelity.json
+
+# Debug / one-off files
+*.docx
+*_REDACTED*.xlsx
+*_OLD_APPROACH.xlsx
+2026_Redacted_Screenshot.xlsx
+linkedin/
+research/
+account statement/
+_test_*.xlsx
+
+# Advisor — gitignored runtime + personal config
+user_profile.json
+advisor_state/
+!advisor_state/.gitkeep
+
+# Nested git repo — refactored canonical project, has its own remote
+repo/
+
+# System
+__pycache__/
+*.pyc
+.claude/settings.local.json
+*.lock*
+~$*
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# IDE / editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini

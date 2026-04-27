@@ -1,0 +1,39 @@
+{
+  "name": "Replace with your name",
+  "birth_year": 1985,
+  "target_retirement_year": 2050,
+  "risk_tolerance": "moderate-aggressive",
+
+  "tax_situation": {
+    "filing_status": "single",
+    "federal_bracket": "24%",
+    "state": "CA"
+  },
+
+  "employment": {
+    "employer_ticker": "AAPL",
+    "monthly_expenses": 8000
+  },
+
+  "concentration_limits": {
+    "max_single_position": 0.10,
+    "max_sector": 0.30
+  },
+
+  "liquidity": {
+    "emergency_fund_target": 50000,
+    "known_upcoming_expenses": [
+      { "amount": 80000, "purpose": "house down payment", "target_year": 2028 }
+    ]
+  },
+
+  "hard_rules": [
+    "never recommend selling NVDA — conviction hold",
+    "avoid recommending short-term capital gains realization"
+  ],
+
+  "goals": [
+    "retire by 2050",
+    "$100K house down payment by 2028"
+  ]
+}

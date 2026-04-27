@@ -1,0 +1,6 @@
+openpyxl
+snaptrade-python-sdk
+plaid-python
+flask
+yfinance
+ddgs
