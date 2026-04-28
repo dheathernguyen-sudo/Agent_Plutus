@@ -12,7 +12,7 @@ If you have investments spread across multiple apps, you probably have no idea h
 2. **Compares you to the market** — grabs S&P 500, Dow Jones, and NASDAQ performance so you can see if you're ahead or behind
 3. **Builds your daily report** — creates one Excel file with everything organized by account
 4. **Tracks changes over time** — saves daily snapshots so you can see how your portfolio moved day to day
-5. **Writes you a one-page advisor brief** — runs your portfolio through ~15 standard CFP-style health checks (concentration risk, glide path, cash buffer, tax-loss opportunities, etc.) and asks Claude to turn the results into calm, plain-English narrative — not "buy this stock," more "your margin debt is 47% of equity; here's what that means and a commonly recommended response"
+5. **Writes you a one-page advisor brief** — runs your portfolio through ~15 standard Certified Financial Planner (CFP)-style health checks (concentration risk, glide path, cash buffer, tax-loss opportunities, etc.) and asks Claude to turn the results into calm, plain-English narrative — not "buy this stock," more "your margin debt is 47% of equity; here's what that means and a commonly recommended response"
 
 ## What You'll See
 
@@ -328,7 +328,7 @@ Yes. Everything works on Mac. The only difference is how you schedule the automa
 ```
 agent-plutus/
 ├── src/             # Core pipeline + workbook builder + tab rebuilders
-├── advisor/         # CFP-style portfolio advisor
+├── advisor/         # Certified Financial Planner (CFP)-style portfolio advisor
 ├── extractors/      # Brokerage data extraction (SnapTrade, Plaid, Fidelity)
 ├── tools/           # Angel valuation, redaction utility
 ├── data/            # Account data templates (*.example.json)
