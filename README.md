@@ -134,7 +134,7 @@ pip install -r requirements.txt
 
 ### Step 2: Get Your API Keys
 
-You'll need free developer accounts from two services that securely connect to your brokerages:
+You'll need free developer accounts from two services for brokerage data — and optionally a third (Anthropic) if you want the advisor's LLM-generated narrative.
 
 #### SnapTrade (for Robinhood + Fidelity)
 
@@ -161,6 +161,19 @@ Plaid has three environments:
 | **Production** | Requires approval (~1 week) | Pay-as-you-go | Full daily use |
 
 You can start with the **Trial** plan, which lets you connect up to 10 real accounts for free — enough to verify everything works before applying for full production access. Production approval typically takes about a week.
+
+#### Anthropic (Optional — for the advisor's narrative)
+
+Skip this and the advisor still runs and writes the Recommendations tab — you just won't get the LLM-generated narrative. See [Privacy and API key](#privacy-and-api-key) for the trade-off.
+
+To enable the narrative version:
+
+1. Sign up at [console.anthropic.com](https://console.anthropic.com)
+2. Add a payment method — there is no free tier. The advisor uses Claude Opus 4.7 with prompt caching, so a daily run typically costs a few cents. Check current rates at [anthropic.com/pricing](https://www.anthropic.com/pricing).
+3. Create an API key under **Settings → API Keys** (it starts with `sk-ant-`)
+4. Save the key as a single line in `<project>/.anthropic_key` (gitignored — never commit this file)
+
+The pipeline reads `.anthropic_key` automatically; no env var needed.
 
 ### Step 3: Connect Your Accounts
 
