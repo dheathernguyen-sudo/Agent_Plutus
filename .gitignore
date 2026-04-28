@@ -4,6 +4,7 @@ config.json
 credentials.json
 *.pickle
 tokens/
+.anthropic_key
 
 # Output files
 *.xlsx
@@ -34,6 +35,10 @@ fidelity_extract_*.json
 fidelity_latest.json
 fidelity_debug_page.txt
 Fidelity.json
+
+# Advisor — gitignored runtime + personal config
+user_profile.json
+advisor_state/
 
 # Debug / one-off files
 *.docx
