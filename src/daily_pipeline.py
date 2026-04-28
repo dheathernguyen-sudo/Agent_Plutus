@@ -906,6 +906,18 @@ def run_pipeline(args):
         logging.error("No data available to build workbook.")
         errors.append("No extraction data available")
 
+    # Advisor — non-critical path; failures logged but never block pipeline.
+    try:
+        if 'model' in dir():
+            from advisor import run_daily
+            run_daily(model, str(OUTPUT_XLSX))
+            logging.info("Advisor brief written to Recommendations tab")
+        else:
+            logging.info("Advisor skipped: no model available (legacy builder path)")
+    except Exception as e:
+        logging.warning(f"Advisor failed (non-fatal): {e}")
+        errors.append(f"Advisor: {e}")
+
     # Validate workbook
     try:
         from validate_workbook import validate_full, format_findings

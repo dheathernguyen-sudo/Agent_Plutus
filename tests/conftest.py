@@ -4,9 +4,11 @@ import json
 import sys
 from pathlib import Path
 
-# Add src/ and extractors/ to path so we can import pipeline modules
-sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
-sys.path.insert(0, str(Path(__file__).parent.parent / "extractors"))
+# Add project root, src/, and extractors/ to path so we can import advisor + pipeline modules
+PROJECT_ROOT = Path(__file__).parent.parent
+sys.path.insert(0, str(PROJECT_ROOT))
+sys.path.insert(0, str(PROJECT_ROOT / "src"))
+sys.path.insert(0, str(PROJECT_ROOT / "extractors"))
 
 import pytest
 
