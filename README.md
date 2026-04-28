@@ -8,7 +8,7 @@
 
 If you have investments spread across multiple apps, you probably have no idea how your total portfolio is actually performing. Each app shows you a piece, but none shows the whole picture. This tool fixes that.
 
-1. **Connects to your accounts** — securely pulls your latest balances and holdings from each brokerage, similar to how Mint or Empower (Personal Capital) works
+1. **Connects to your accounts** — securely pulls your latest balances and holdings from each brokerage via read-only APIs
 2. **Compares you to the market** — grabs S&P 500, Dow Jones, and NASDAQ performance so you can see if you're ahead or behind
 3. **Builds your daily report** — creates one Excel file with everything organized by account
 4. **Tracks changes over time** — saves daily snapshots so you can see how your portfolio moved day to day
@@ -40,66 +40,15 @@ Your report is an Excel workbook with these pages:
 
 ## Your Advisor Brief
 
-Every workbook also includes a **Recommendations** tab — a one-page executive summary of your portfolio's health, written in plain English by Claude (Anthropic's LLM).
+Every workbook also includes a **Recommendations** tab — a one-page executive summary of your portfolio's health, written in plain English by Claude (Anthropic's LLM). It runs 15 CFP-style health checks (concentration, leverage, glide path, tax-loss, etc.), classifies each finding by severity (urgent / attention / context / positive), and respects "hard rules" from your profile (e.g. *"never sell NVDA"*). Tone is calm and educational, never prescriptive — see the screenshot above for an example. Lifecycle checks (glide path, retirement risk, employer stock, emergency fund) only fire if your profile is configured; without one, you still get the rest. Day-over-day, the brief surfaces *new* findings with fresh narrative and reminds you of *standing* concerns in one line each.
 
-### What it analyzes
-
-The advisor runs 15 standard portfolio checks — the kind a Certified Financial Planner walks through with a client during an annual review:
-
-| Topic | What it flags |
-|---|---|
-| **Concentration risk** | Single position over your limit, sector overweight, employer stock cluster |
-| **Cash & emergency fund** | Cash below 3-month expenses, upcoming expense not yet covered |
-| **Leverage** | Margin debt as % of equity, interest-cost estimate |
-| **Asset allocation** | Glide path drift, international equity underweight, inflation hedge exposure |
-| **Tax efficiency** | Asset location inefficiency, tax-loss harvest candidates |
-| **Performance** | YTD vs S&P 500, alpha, gain breakdown (unrealized / dividends / realized) |
-| **Lifecycle** | Pre-retirement equity risk relative to time horizon |
-
-Each finding gets a severity — 🔴 urgent / ⚠ attention / ℹ context / ✅ positive — and lands in the Recommendations tab grouped by priority, with a one-line interpretation and (where applicable) a suggested action. Lifecycle-aware checks (glide path, retirement risk, employer stock, emergency fund) only fire if your profile is configured; without one, you still get the rest.
-
-### What it sounds like
-
-Tone is calm and educational, never prescriptive. The narrator uses CFP-style framing:
-
-> *"Historically, when margin debt approaches 50% of equity, even a routine 10% pullback can force liquidation at the worst possible moment. A commonly recommended approach for someone in your situation is to bring leverage below 25% within six months. A licensed CFP can tailor this to your specific tax picture."*
-
-The advisor respects **hard rules** from your profile (e.g. *"never recommend selling NVDA — conviction hold"*) and **never claims to be a licensed advisor**. Every brief carries the standard disclosures around past performance, principal risk, and the limits of educational content.
-
-### Day-over-day diff
-
-The advisor remembers what it told you yesterday. New findings get a fresh narrative; standing concerns get a one-liner reminder rather than the full re-explanation every morning.
-
-### How to set up your profile
-
-The advisor reads `user_profile.json` (gitignored — stays local). To create yours:
-
-1. Copy the template:
-   ```bash
-   cp user_profile.example.json user_profile.json
-   ```
-2. Edit `user_profile.json` in any text editor — it's plain JSON.
-3. Save. The next pipeline run picks it up automatically — no restart needed.
-
-The annotated template shows every field, what each one does, and which observation it powers (age → glide path; retirement year → lifecycle risk; employer ticker → employer stock check; etc.). All fields are optional. If the file is missing or malformed, the advisor logs a warning and runs with defaults rather than failing — so you can iterate on it without breaking your daily run.
-
-> **What if I skip the profile?** The advisor still runs and produces a brief — but ~5 of the 15 checks get silently skipped because they need profile data (glide path needs your age, emergency-fund check needs your target, employer-stock check needs your ticker, retirement-risk checks need your target year, upcoming-expense check needs your list). You'll get concentration, leverage, tax-loss, performance, and asset-location findings either way. Recommended: at minimum set `birth_year`, `target_retirement_year`, and `liquidity.emergency_fund_target` — that re-enables most of the lifecycle checks.
+Profile setup is in [Step 8 of Getting Started](#step-8-optional-set-up-your-advisor-profile). Without one, the advisor still runs the 10 portfolio-only checks; the 5 lifecycle-aware checks just sit out.
 
 ### Privacy and API key
 
 Findings (severity, category, headline, detail JSON) plus a profile summary are sent to Anthropic's API to compose the brief. **Raw holdings, account numbers, and credentials never leave your machine.**
 
 **No API key? The advisor still works.** All 15 checks run identically — you get the same Recommendations tab with the same severity-classified findings and day-over-day diff. What you lose is the LLM-generated narrative: instead of *"Historically, when margin debt approaches 50%..."*, you get the bare headline *"[URGENT] Margin debt is 47% of net equity"*. The tab title also gets a *"(LLM narrator unavailable — findings only)"* suffix so it's clear you're in fallback mode. Fully local, no network call.
-
-To enable the narrative version, drop your key at `<project>/.anthropic_key` (one line, gitignored).
-
-### Replay a past brief
-
-```bash
-python -m advisor                          # today's brief
-python -m advisor --date 2026-04-25        # a specific past day
-python -m advisor --findings               # structured JSON instead of narrative
-```
 
 ## Where Your Data Comes From
 
@@ -114,25 +63,79 @@ python -m advisor --findings               # structured JSON instead of narrativ
 
 > **Is this safe?** Yes. All connections are **read-only** — the tool can see your balances but **cannot trade, move money, or make any changes** to your accounts. Your credentials are stored locally on your machine, never sent anywhere.
 
+## Before You Start
+
+Quick self-check before investing setup time:
+
+- ✅ You have at least one account at Fidelity, Robinhood, Merrill Lynch, Chase, Marcus, or another supported institution
+- ✅ You're comfortable spending **30–60 minutes** on initial setup
+- ⚠️ The advisor's *narrative* (the plain-English interpretation) requires a paid [Anthropic API key](#anthropic-optional--for-the-advisors-narrative) — typically a few cents per daily run. Skip it and you still get the workbook plus structured findings; you just lose the narrative wrapper.
+- 💡 Never used a terminal or edited JSON before? You don't need to know either ahead of time — Steps 1–10 walk you through every command and the example files are heavily annotated.
+
+If those are workable, continue.
+
 ## Getting Started
 
-**Initial setup takes about 30 minutes.** After that, the tool runs automatically every weekday and your report is waiting for you.
+**Initial setup takes 30–60 minutes** the first time. After that, the tool runs automatically every weekday and your report is waiting for you.
 
 ### What You'll Need
 
-- **A computer** — Windows 10+ or macOS 12+
+- **A computer** — Windows 10+, macOS 12+, or Linux
 - **Python 3.12 or newer** — [download here](https://www.python.org/downloads/)
+- **A code editor** — [VS Code](https://code.visualstudio.com/) (free) or Notepad++ (Windows). **Don't use regular Notepad** — it can corrupt the JSON config files.
 - **Your brokerage login credentials** — stored locally on your machine
 - **Free API keys** from two services (instructions below)
 
-### Step 1: Install the Tool
+### Step 1: Install Python
 
-```bash
-# Download the code, then in your terminal:
+1. Download Python 3.12+ from [python.org/downloads](https://www.python.org/downloads/) and run the installer.
+2. **⚠️ On Windows, check the box "Add Python to PATH" on the first installer screen.** If you skip this, the `python` and `pip` commands won't work in your terminal — and re-installing is the easiest fix.
+3. After install, verify by opening a terminal (next step) and running `python --version`. You should see something like `Python 3.12.x`. On macOS you may need `python3` instead of `python` everywhere in this guide.
+
+### Step 2: Open a Terminal
+
+You'll be running a handful of commands in your computer's terminal (also called "command line" or "shell").
+
+- **Windows:** Press `Win + R`, type `cmd`, press Enter. Or right-click the Start button and choose "Terminal" / "Windows PowerShell".
+- **macOS:** Press `Cmd + Space`, type `Terminal`, press Enter.
+- **Linux:** Press `Ctrl + Alt + T`, or search for "Terminal" in your applications.
+
+You'll know you're in a terminal when you see a blinking cursor after text like `C:\Users\you>` (Windows) or `you@machine ~ $` (Mac/Linux). You type a command, press Enter, and read the output.
+
+### Step 3: Download the Code
+
+Easiest path — download a ZIP:
+
+1. Go to [github.com/dheathernguyen-sudo/Agent_Plutus](https://github.com/dheathernguyen-sudo/Agent_Plutus)
+2. Click the green **Code** button → **Download ZIP**
+3. Unzip the folder somewhere memorable, e.g. `C:\Users\you\agent-plutus` (Windows) or `~/agent-plutus` (Mac/Linux)
+4. In your terminal, **navigate into that folder**:
+
+   ```
+   cd C:\Users\you\agent-plutus       (Windows)
+   cd ~/agent-plutus                  (Mac/Linux)
+   ```
+
+If you already have **git** installed, you can clone instead:
+
+```
+git clone https://github.com/dheathernguyen-sudo/Agent_Plutus.git
+cd Agent_Plutus
+```
+
+✅ **Verify:** type `dir` (Windows) or `ls` (Mac/Linux). You should see `requirements.txt`, `daily_pipeline.py`, and folders like `data/`, `advisor/`, `extractors/`.
+
+### Step 4: Install Dependencies
+
+```
 pip install -r requirements.txt
 ```
 
-### Step 2: Get Your API Keys
+This installs the Python libraries the tool needs (openpyxl for Excel, anthropic for the advisor, plaid-python, snaptrade-python-sdk, etc.). Takes about a minute.
+
+✅ **Verify:** the last line should be something like `Successfully installed ...`.
+
+### Step 5: Get Your API Keys
 
 You'll need free developer accounts from two services for brokerage data — and optionally a third (Anthropic) if you want the advisor's LLM-generated narrative.
 
@@ -149,18 +152,9 @@ The free tier includes 5 brokerage connections, which is enough for most users. 
 #### Plaid (for 401k, checking, savings)
 
 1. Sign up at [dashboard.plaid.com/signup](https://dashboard.plaid.com/signup)
-2. Go to **Developers > Keys** to find your **Client ID** and **Secret**
-3. Enable the **Investments** product in your dashboard (required for 401k holdings)
-
-Plaid has three environments:
-
-| Environment | Access | Cost | Use for |
-|-------------|--------|------|---------|
-| **Sandbox** | Instant | Free | Testing with fake data |
-| **Trial** | Instant | Free (10 accounts) | Testing with real brokerages |
-| **Production** | Requires approval (~1 week) | Pay-as-you-go | Full daily use |
-
-You can start with the **Trial** plan, which lets you connect up to 10 real accounts for free — enough to verify everything works before applying for full production access. Production approval typically takes about a week.
+2. Choose the **Trial** plan — it's free, instant, and supports up to 10 real brokerage accounts. No approval process.
+3. Go to **Developers > Keys** to find your **Client ID** and **Secret**
+4. Enable the **Investments** product in your dashboard (required for 401k holdings)
 
 #### Anthropic (Optional — for the advisor's narrative)
 
@@ -175,78 +169,115 @@ To enable the narrative version:
 
 The pipeline reads `.anthropic_key` automatically; no env var needed.
 
-### Step 3: Connect Your Accounts
+### Step 6: Connect Your Accounts
 
-```bash
-# This walks you through entering your API keys and linking accounts
+Run the interactive setup — it'll prompt for the keys you got in Step 5 and walk you through linking each brokerage:
+
+```
 python extractors/plaid_extract.py --setup
+```
 
-# If using Fidelity browser automation fallback:
+If using the Fidelity browser-automation fallback (needed only if SnapTrade can't reach your Fidelity account):
+
+```
 python extractors/fidelity_extract.py
 ```
 
-### Step 4: Set Up Your Account Data
+✅ **Verify:** the setup script should report each account it linked. The credentials and tokens are saved to `~/.portfolio_extract/config.json` (a hidden folder in your home directory) — never to the project folder, never to the cloud.
 
-Copy the example templates and fill in your account details:
+### Step 7: Set Up Your Account Data
 
-```bash
-# Copy each account you want to track
-cp data/fidelity_brokerage.example.json data/fidelity_brokerage.json
-cp data/robinhood.example.json data/robinhood.json
-cp data/k401.example.json data/k401.json
-# ... etc.
+Copy the example templates to working files and fill in your details. **Open them in your code editor** (VS Code or Notepad++ — *not* regular Notepad).
 
-# Copy the manual data template for 401(k) quarterly data and angel investments
-cp manual_data.example.json manual_data.json
+**Windows (cmd or PowerShell):**
 ```
-
-Edit each JSON file with your account numbers, monthly performance, and holdings.
-
-### Step 5: (Optional) Set Up Your Advisor Profile
-
-To enable lifecycle-aware checks (glide path, retirement risk, emergency fund), copy the profile template:
-
-```bash
-cp user_profile.example.json user_profile.json
-```
-
-Then edit `user_profile.json` to set your birth year, target retirement year, risk tolerance, and any hard rules. Skip this and the advisor still runs with portfolio-only checks — see [How to set up your profile](#how-to-set-up-your-profile) for details.
-
-### Step 6: Run It
-
-```bash
-python src/daily_pipeline.py
-```
-
-Your report will be saved as `2026_Portfolio_Analysis.xlsx` in the project folder.
-
-### Step 7: Set It and Forget It
-
-Schedule the tool to run automatically every weekday afternoon:
-
-**Windows:**
-```bash
-schtasks /create /tn "AgentPlutus" /xml schedule_task.xml
+copy data\fidelity_brokerage.example.json data\fidelity_brokerage.json
+copy data\robinhood.example.json data\robinhood.json
+copy data\k401.example.json data\k401.json
+copy manual_data.example.json manual_data.json
 ```
 
 **Mac/Linux:**
-```bash
-# Open your cron editor and add this line:
-crontab -e
-# Add: 0 16 * * 1-5 cd /path/to/agent-plutus && python3 src/daily_pipeline.py
+```
+cp data/fidelity_brokerage.example.json data/fidelity_brokerage.json
+cp data/robinhood.example.json data/robinhood.json
+cp data/k401.example.json data/k401.json
+cp manual_data.example.json manual_data.json
 ```
 
-#### Scheduling Tips
+Then edit each `.json` file in your editor. The example files are heavily commented to show what each field means and which are required vs. optional.
 
-The pipeline runs locally on your machine — **your raw financial data never leaves your computer**. This is a deliberate design choice: unlike cloud-based tools like Mint or Empower, your holdings, balances, and account numbers are never stored on third-party servers.
+> **JSON tips for first-time editors:** keep the quotes `"like this"` around keys and string values, keep the commas between items, keep brackets matching. If the pipeline complains about JSON later, paste the file contents into [jsonlint.com](https://jsonlint.com/) — most breakage is a missing comma or unbalanced brace.
 
-The trade-off is the pipeline only runs when your computer is on or sleeping:
+✅ **Verify:** you have one `.json` file per account you want to track, alongside the corresponding `.example.json`. The real ones are gitignored — they never leave your machine.
 
-- **Sleep mode (lid closed):** The scheduler will wake your machine, run the pipeline, then let it sleep again. This is the recommended setup — most people close their laptop lid rather than shutting down, and this covers you automatically.
-- **Fully shut down:** The pipeline can't run while the machine is off. However, the scheduler is configured with `StartWhenAvailable`, so it will run automatically the next time you turn your machine on.
-- **Missed days:** The pipeline has built-in **catch-up mode**. If it detects missed trading days since its last run (e.g., your laptop was off for a few days), it will log the gap and rebuild the workbook from the most recent cached data. You won't lose coverage — the report will reflect the last available market data.
+### Step 8: (Optional) Set Up Your Advisor Profile
 
-> **Tip:** For the most reliable scheduling, use **sleep** instead of shutdown. On Windows, you can also enable "Wake timers" in Power Options to ensure Task Scheduler can wake your machine.
+The advisor reads `user_profile.json` (gitignored — stays local) to enable lifecycle-aware checks (glide path, retirement risk, emergency fund, employer-stock concentration).
+
+1. Copy the template:
+   - **Windows:** `copy user_profile.example.json user_profile.json`
+   - **Mac/Linux:** `cp user_profile.example.json user_profile.json`
+2. Open `user_profile.json` in your code editor — it's plain JSON.
+3. Set your birth year, target retirement year, risk tolerance, and any hard rules. Save.
+
+The next pipeline run picks it up automatically — no restart needed. The annotated template shows every field, what it does, and which observation it powers (age → glide path; retirement year → lifecycle risk; employer ticker → employer stock check; etc.). All fields are optional. If the file is missing or malformed, the advisor logs a warning and runs with defaults rather than failing — so you can iterate on it without breaking your daily run.
+
+> **What if I skip this step?** The advisor still runs and produces a brief — but ~5 of the 15 checks get silently skipped (glide path needs your age, emergency-fund check needs your target, employer-stock check needs your ticker, retirement-risk checks need your target year, upcoming-expense check needs your list). You'll get concentration, leverage, tax-loss, performance, and asset-location findings either way. Recommended minimum: `birth_year`, `target_retirement_year`, and `liquidity.emergency_fund_target` — re-enables most of the lifecycle checks.
+
+### Step 9: First Run
+
+Start with a dry run to test the brokerage connections without building the Excel:
+
+```
+python src/daily_pipeline.py --dry-run
+```
+
+✅ **Verify:** look for `Pipeline Complete` or `All steps completed successfully` near the end of the output.
+
+Then a full run:
+
+```
+python src/daily_pipeline.py
+```
+
+✅ **Verify:** open the project folder; you should see `2026_Portfolio_Analysis.xlsx`. Open it — the Dashboard, account tabs, and Recommendations tab should all be populated.
+
+### Step 10: Set It and Forget It
+
+Schedule the tool to run automatically every weekday afternoon.
+
+**Windows (Task Scheduler):**
+
+The included `schedule_task.xml` is a template — you need to edit it before importing:
+
+1. Open `schedule_task.xml` in your code editor.
+2. Replace `<PROJECT_PATH>` (in `<Command>` and `<WorkingDirectory>`) with the absolute path to this project — e.g. `C:\Users\you\agent-plutus`.
+3. Replace `YourUsername` (in `<Author>` and `<UserId>`) with your actual Windows username. To find it, run `whoami` in your terminal — use just the part after the backslash.
+4. Save the file.
+
+Then import the task:
+
+```
+schtasks /create /tn "AgentPlutus" /xml schedule_task.xml
+```
+
+✅ **Verify:** open Task Scheduler (search "Task Scheduler" in the Start menu), find "AgentPlutus" in the task list. Right-click → "Run" to test it now without waiting for 4pm.
+
+**Mac/Linux (cron):**
+
+```
+crontab -e
+```
+
+Add this line (replace the path):
+```
+0 16 * * 1-5 cd /path/to/agent-plutus && python3 src/daily_pipeline.py
+```
+
+✅ **Verify:** run `crontab -l` to list your jobs and confirm yours appears.
+
+> **Scheduling note:** the pipeline only runs while your computer is on or sleeping. Sleep mode is best — the scheduler wakes the machine, runs, and lets it sleep again. If the machine is fully off, the task fires on next boot (`StartWhenAvailable`). Missed trading days are caught up automatically from the last cached extraction. On Windows, enable "Wake timers" in Power Options for reliability.
 
 ### Command Reference
 
@@ -266,15 +297,6 @@ python -m advisor --date YYYY-MM-DD            # View a past day's brief
 python -m advisor --findings                   # Print structured findings as JSON
 ```
 
-## What If I Don't Have All These Accounts?
-
-You don't need all of them. The tool works with whatever accounts you connect:
-- Fidelity only? Works.
-- Just Robinhood? Works.
-- No angel investments? That page is simply skipped.
-
-Add more accounts anytime by re-running the setup and adding the corresponding `data/*.json` file.
-
 ## Frequently Asked Questions
 
 **Can this tool access or move my money?**
@@ -282,6 +304,9 @@ No. All connections are strictly read-only. It can see your balances and holding
 
 **Do I need to know Python?**
 Only for the initial setup (copy-pasting a few commands). After that, the tool runs on its own every weekday.
+
+**Do I need all the brokerage accounts listed?**
+No. The tool works with whatever you connect — Fidelity only, just Robinhood, no angel investments at all. Missing-account pages are simply skipped. Add more anytime by re-running setup and dropping the corresponding `data/*.json`.
 
 **What does "beating the market" mean?**
 If the S&P 500 is up 10% this year and your portfolio is up 12%, you're beating the market by 2 percentage points. That 2% is your "alpha."
@@ -293,13 +318,7 @@ Each run pulls live data from your accounts. If you run it at 4pm, you'll see th
 The tool will still run — it falls back to the most recent successful extraction for that source and warns you in the log. Reconnect when you have a chance.
 
 **What if my computer was off for a few days?**
-The pipeline will catch up automatically. When it runs again, it detects any missed trading days and rebuilds the workbook from the most recent cached extraction data. If it's a trading day, it will also pull fresh data from your brokerages.
-
-**Is my financial data stored in the cloud?**
-Your raw financial data — holdings, account numbers, balances — never leaves your machine. The optional advisor brief sends a summary of findings (severities, percentages, category headlines) to Anthropic's API to compose the narrative; if you skip the API key, even that stays local. The generated Excel file always stays on your computer.
-
-**What's the "Recommendations" tab? Is that financial advice?**
-No. It's a one-page educational summary written by Claude (Anthropic's AI) that interprets 15 standard portfolio health checks (concentration, leverage, glide path, tax-loss opportunities, etc.). It uses CFP-style framing — "historically, this approach has..." — but never recommends specific buys/sells and is not a substitute for a licensed advisor. The narrator also respects "hard rules" you set in your profile (e.g. "never sell ticker X").
+The pipeline catches up automatically. When it runs again, it detects any missed trading days and rebuilds the workbook from the most recent cached data. On a trading day it also pulls fresh data.
 
 **Can I run this on a Mac?**
 Yes. Everything works on Mac. The only difference is how you schedule the automatic run (cron instead of Task Scheduler).
@@ -308,65 +327,23 @@ Yes. Everything works on Mac. The only difference is how you schedule the automa
 
 ```
 agent-plutus/
-├── src/                            # Core pipeline and workbook builder
-│   ├── daily_pipeline.py           #   Main orchestrator
-│   ├── portfolio_model.py          #   Pure computation model
-│   ├── build_workbook.py           #   Declarative Excel builder
-│   ├── build_portfolio.py          #   Legacy monolithic builder
-│   ├── registry.py                 #   Cell reference registry
-│   ├── validate_workbook.py        #   Workbook validation (7 checks)
-│   ├── daily_snapshot.py           #   Daily portfolio snapshots
-│   ├── rebuild_brok_tab.py         #   Fidelity Brokerage tab rebuilder
-│   ├── rebuild_roth_tab.py         #   Fidelity Roth IRA tab rebuilder
-│   ├── rebuild_hsa_tab.py          #   Fidelity HSA tab rebuilder
-│   ├── rebuild_rh_tab.py           #   Robinhood tab rebuilder
-│   ├── rebuild_cash_tab.py         #   Cash tab rebuilder
-│   └── rebuild_dashboard.py        #   Dashboard tab rebuilder
-├── advisor/                        # CFP-style portfolio advisor
-│   ├── observations.py             #   15 portfolio health checks
-│   ├── profile.py                  #   User profile loader
-│   ├── state.py                    #   Day-over-day finding diff + persistence
-│   ├── narrator.py                 #   LLM brief composition (Claude)
-│   ├── writer.py                   #   Recommendations tab styling/layout
-│   ├── fallback.py                 #   Deterministic local brief (no API key)
-│   └── __main__.py                 #   `python -m advisor` CLI for replay
-├── extractors/                     # Brokerage data extraction
-│   ├── plaid_extract.py            #   SnapTrade + Plaid extraction
-│   ├── fidelity_extract.py         #   Fidelity browser automation
-│   ├── fidelity_csv.py             #   Fidelity CSV parser (legacy)
-│   ├── fidelity_ofx.py             #   Fidelity OFX parser (legacy)
-│   ├── plaid_link_oauth.py         #   OAuth institution linking
-│   ├── robinhood_history.py        #   Robinhood monthly history
-│   ├── parse_rh_statements.py      #   Robinhood PDF statement parser
-│   └── parse_rh_cost_basis.py      #   Robinhood cost basis calculator
-├── tools/                          # Standalone utilities
-│   ├── run_angel_check.py          #   Angel valuation web search
-│   └── redact_for_screenshot.py    #   Redacted workbook generator
-├── data/                           # Account data templates
-│   ├── *.example.json              #   Example schemas (in repo)
-│   └── *.json                      #   Your real data (gitignored)
-├── tests/                          # Test suite
-│   ├── conftest.py
-│   ├── fixtures/                   #   Synthetic test data
-│   └── test_*.py
-├── manual_data.example.json        # Template for manual data
-├── user_profile.example.json       # Template for advisor profile
-├── requirements.txt                # Python dependencies
-├── run_pipeline.bat                # Windows scheduler launcher
-├── run_pipeline.sh                 # Mac/Linux scheduler launcher
-├── schedule_task.xml               # Windows Task Scheduler config
+├── src/             # Core pipeline + workbook builder + tab rebuilders
+├── advisor/         # CFP-style portfolio advisor
+├── extractors/      # Brokerage data extraction (SnapTrade, Plaid, Fidelity)
+├── tools/           # Angel valuation, redaction utility
+├── data/            # Account data templates (*.example.json)
+├── tests/           # Test suite
+├── manual_data.example.json
+├── user_profile.example.json
+├── requirements.txt
+├── run_pipeline.bat / run_pipeline.sh
+├── schedule_task.xml
 └── README.md
 ```
 
+Browse the GitHub source tree for per-file detail.
+
 ## Architecture
-
-The system is built around four layers:
-
-```
-Extraction (APIs)  -->  Computation (model)  -->  Output (Excel)  -->  Advisor (LLM)
-```
-
-### Data Flow
 
 ```
 SnapTrade API ─────┐
@@ -381,73 +358,13 @@ manual_data.json ──┘                                                    �
                               user_profile.json    .anthropic_key
 ```
 
-### Extraction Layer
-- **`plaid_extract.py`** — SnapTrade (Robinhood, Fidelity) + Plaid (Merrill 401k, Chase, Marcus)
-- **`fidelity_extract.py`** — Browser automation fallback for Fidelity via Playwright
-- **`robinhood_history.py`** — Historical monthly data via robin_stocks API
-- **`parse_rh_statements.py`** / **`parse_rh_cost_basis.py`** — PDF statement parsers for Robinhood
+- **Extraction** (`extractors/`): SnapTrade for Robinhood + Fidelity; Plaid for Merrill 401k + cash; Playwright fallback for Fidelity.
+- **Computation** (`portfolio_model.py`): pure Python — merges JSON templates with live API data, computes TWR/MWRR/cost-basis returns, alpha. No Excel dependency.
+- **Output** (`build_workbook.py` + `rebuild_*.py`): declarative Excel builder plus per-tab rebuilders (Dashboard, account tabs, Cash).
+- **Advisor** (`advisor/`): post-build, non-fatal. `observations.py` runs 15 health checks; `narrator.py` sends classified findings to Claude with a CFP-aligned system prompt; `writer.py` renders the brief into the Recommendations tab. Falls back to deterministic local Markdown when no API key.
+- **Validation** (`validate_workbook.py`): 7 structural checks (label matching, formula errors, balance continuity, accounting identity, etc.). Non-zero exit gates a scheduled run.
 
-### Computation Layer
-- **`portfolio_model.py`** — Pure Python model. Reads `data/*.json` account templates, merges live API data, computes TWR, MWRR, cost basis returns, and alpha. No Excel dependency.
-
-### Output Layer
-- **`build_workbook.py`** — Declarative Excel builder. Reads the model dict and produces a formatted workbook with named ranges.
-- **`rebuild_*.py`** — Individual tab rebuilders that can update a single sheet without regenerating the entire workbook:
-  - `rebuild_brok_tab.py`, `rebuild_roth_tab.py`, `rebuild_hsa_tab.py` (Fidelity accounts)
-  - `rebuild_rh_tab.py` (Robinhood)
-  - `rebuild_cash_tab.py` (Cash)
-  - `rebuild_dashboard.py` (Dashboard summary)
-
-### Advisor Layer (`advisor/`)
-
-A non-fatal post-build step that produces the Recommendations tab:
-
-- **`observations.py`** — 15 CFP-style portfolio health checks (concentration, leverage, glide path, tax-loss, etc.). Each is a registered generator that takes the portfolio model + user profile and returns a list of `Finding`s with severity classification.
-- **`profile.py`** — Loads `user_profile.json`. Returns a `Profile` with `profile_missing=True` and safe defaults if the file is missing or malformed (advisor degrades gracefully — no crash).
-- **`state.py`** — Persists daily findings; computes new vs. standing diff so the brief doesn't repeat itself every morning.
-- **`narrator.py`** — Sends classified findings + profile summary to Claude (Opus 4.7) with a CFP-aligned system prompt that enforces educational framing, respects hard rules, and forbids licensure claims.
-- **`fallback.py`** — Deterministic findings-only Markdown brief used when no API key is configured. Fully local.
-- **`writer.py`** — Renders the brief into the Recommendations tab as a structured Executive Summary (Overall State, Immediate Priority, Active Concerns, Opportunities, Suggested Sequencing, Structured Findings).
-
-The advisor runs after `validate_workbook.py` in the daily pipeline. Failures are logged and never propagated — the workbook is the critical artifact, advisor is non-fatal.
-
-### Supporting Components
-- **`registry.py`** — Cell reference registry defining expected row/column locations for all tabs. Used by the validator and named ranges.
-- **`validate_workbook.py`** — 7 automated checks: label matching, formula errors, cross-sheet references, balance continuity, accounting identity, holdings totals, YTD gain consistency.
-- **`daily_snapshot.py`** — Saves daily portfolio state as JSON for day-over-day comparison.
-- **`run_angel_check.py`** — Interactive angel investment valuation updater using DuckDuckGo web search.
-- **`redact_for_screenshot.py`** — Creates a redacted copy of the workbook (dollar amounts masked, returns and tickers preserved) for sharing.
-
-### Pipeline Orchestration
-
-**`daily_pipeline.py`** ties everything together:
-
-1. Extract data from all connected brokerages (SnapTrade + Plaid)
-2. Fetch benchmark returns (S&P 500, Dow, NASDAQ) via yfinance
-3. Save daily snapshot for historical tracking
-4. Build the portfolio model and generate the Excel workbook
-5. Run validation checks
-6. Run the advisor (optional, non-fatal): observations → narrator → Recommendations tab
-7. Report errors and log results
-
-Runs automatically on weekdays at 4:00 PM via Windows Task Scheduler. Skips weekends and US market holidays.
-
-### Account Data Templates
-
-The `data/` directory contains per-account JSON templates that define account structure and monthly performance history. These are merged with live API data at build time. See the `*.example.json` files for the expected schema:
-
-```
-data/
-├── fidelity_brokerage.example.json   # Brokerage account template
-├── fidelity_roth_ira.example.json    # Roth IRA template
-├── fidelity_hsa.example.json         # HSA template
-├── robinhood.example.json            # Robinhood template (with margin support)
-├── k401.example.json                 # 401(k) with quarterly performance
-├── angel.example.json                # Angel/private investments
-└── cash.example.json                 # Cash account configuration
-```
-
-To set up your own accounts, copy each relevant `.example.json` to its non-example name (e.g. `fidelity_brokerage.json`) and fill in your data.
+`daily_pipeline.py` orchestrates: extract → benchmarks → snapshot → build → validate → advise. Runs Mon–Fri at 4:00 PM PT via Windows Task Scheduler; skips weekends and US market holidays. See `tests/README.md` for the testing philosophy and `skills.md` for a per-script capability map.
 
 ## License
 
