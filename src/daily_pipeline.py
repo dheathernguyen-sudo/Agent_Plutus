@@ -308,14 +308,16 @@ def load_latest_extraction():
 def load_last_good_source(source_key):
     """Find the most recent extraction that contains data for a given source.
 
-    Scans weekly_raw_*.json files in reverse chronological order.
+    Scans weekly_raw_*.json files in reverse chronological order. Skips
+    entries that are present-but-empty (the silent-Plaid-failure shape:
+    accounts=[], holdings=[]) so we don't mistake those for "good" data.
     Returns (data_dict, filename) or (None, None) if never found.
     """
     raw_files = sorted(EXTRACT_OUTPUT.glob("weekly_raw_*.json"), reverse=True)
     for f in raw_files:
         try:
             raw = json.loads(f.read_text())
-            if source_key in raw and raw[source_key]:
+            if source_key in raw and not _is_extraction_empty(raw[source_key]):
                 logging.info(f"  Fallback: found {source_key} in {f.name}")
                 return raw[source_key], f.name
         except Exception:
