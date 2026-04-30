@@ -410,6 +410,24 @@ def _is_401k_label(label):
     return any(s in lower for s in ("merrill", "401k", "401(k)", "netbenefits"))
 
 
+def _is_extraction_empty(d):
+    """Return True if a per-institution extraction dict is effectively empty.
+
+    Plaid (and SnapTrade in some failure modes) can return a successful but
+    content-empty response when a connection silently needs re-auth — both
+    accounts and holdings come back as []. We treat this as "missing" so the
+    load_last_good_source fallback fires, instead of letting an empty entry
+    block the fallback path. Non-dict shapes pass through untouched.
+    """
+    if d is None:
+        return True
+    if not isinstance(d, dict):
+        return False
+    if not d:
+        return True
+    return not (d.get("accounts") or d.get("holdings"))
+
+
 def prepare_builder_data(raw, pipeline):
     """Convert raw/pipeline extraction data into the format build_portfolio expects.
 
@@ -812,7 +830,7 @@ def run_pipeline(args):
             # Merge fallback data for any missing sources
             stale_sources = []
 
-            if "fidelity" not in raw:
+            if "fidelity" not in raw or _is_extraction_empty(raw.get("fidelity")):
                 fid_fallback, fid_file = load_last_good_source("fidelity")
                 if fid_fallback:
                     raw["fidelity"] = fid_fallback
@@ -821,18 +839,19 @@ def run_pipeline(args):
                 else:
                     logging.warning("  No Fidelity data available (current or historical)")
 
-            if "robinhood" not in raw:
+            if "robinhood" not in raw or _is_extraction_empty(raw.get("robinhood")):
                 rh_fallback, rh_file = load_last_good_source("robinhood")
                 if rh_fallback:
                     raw["robinhood"] = rh_fallback
                     stale_sources.append(f"Robinhood (from {rh_file})")
                     logging.warning(f"  Using fallback Robinhood data from {rh_file}")
 
-            # 401(k) fallback — check for any known 401k provider key
-            if not any(_is_401k_label(k) for k in raw):
+            # 401(k) fallback — fire if no 401k key present, OR every present 401k key is empty.
+            _401k_keys = [k for k in raw if _is_401k_label(k)]
+            if not _401k_keys or all(_is_extraction_empty(raw[k]) for k in _401k_keys):
                 for src in ("merrill", "fidelity_netbenefits"):
                     fb, ff = load_last_good_source(src)
-                    if fb:
+                    if fb and not _is_extraction_empty(fb):
                         raw[src] = fb
                         stale_sources.append(f"401k/{src} (from {ff})")
                         logging.warning(f"  Using fallback 401k data from {ff}")

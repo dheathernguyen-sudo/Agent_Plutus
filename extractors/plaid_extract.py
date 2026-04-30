@@ -21,6 +21,7 @@ Requirements:
 
 import argparse
 import json
+import logging
 import os
 import sys
 import time
@@ -28,6 +29,8 @@ import datetime
 from pathlib import Path
 from typing import Optional
 from collections import defaultdict
+
+logger = logging.getLogger(__name__)
 
 # ---------------------------------------------------------------------------
 # Conditional imports
@@ -647,7 +650,7 @@ def extract_plaid(config, start_date, end_date, institution_filter=None):
                     "balances": {"current": _num(a["balances"].get("current")),
                                  "available": _num(a["balances"].get("available"))}})
         except plaid.ApiException as e:
-            print(f"  ERROR accounts: {_plaid_error(e)}")
+            logger.error(f"Plaid accounts_get failed for {label}: {_plaid_error(e)}")
         try:
             hr = client.investments_holdings_get(InvestmentsHoldingsGetRequest(access_token=at))
             for s in hr["securities"]:
@@ -658,7 +661,7 @@ def extract_plaid(config, start_date, end_date, institution_filter=None):
                     "quantity": _num(h.get("quantity")), "institution_price": _num(h.get("institution_price")),
                     "institution_value": _num(h.get("institution_value")), "cost_basis": _num(h.get("cost_basis"))})
         except plaid.ApiException as e:
-            print(f"  ERROR holdings: {_plaid_error(e)}")
+            logger.error(f"Plaid investments_holdings_get failed for {label}: {_plaid_error(e)}")
         try:
             off, tot = 0, 0
             while True:
@@ -677,7 +680,7 @@ def extract_plaid(config, start_date, end_date, institution_filter=None):
                 off = tot
                 time.sleep(0.5)
         except plaid.ApiException as e:
-            print(f"  ERROR transactions: {_plaid_error(e)}")
+            logger.error(f"Plaid investments_transactions_get failed for {label}: {_plaid_error(e)}")
         results[label] = r
     return results
 
